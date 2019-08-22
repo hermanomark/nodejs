@@ -1,8 +1,16 @@
-## Vidjot
+# Vidjot
 
 A video idea app creator from the Udemy-Nodejs-express-mongodb-dev-to-deployment by Brad Traversy.
 
-My live app can be access here: 
+# What I learned
+* Setup dev environment, installed Node.js, installed MongoDB locally, sign-up for MongoDB Atlas.
+* Learned express fundamentals like installing express, basic routing, middlewares and working with templates using handlebars.
+* Installed mongoose, created model for ideas.
+* Server side form validation.
+* Saving, updating, removing idea and fetching ideas from mongodb.
+* Handle flash messaging.
+* Local authentication with passport.
+* Deploying to heroku and adding domain name.
 
 # Usage
 ```
