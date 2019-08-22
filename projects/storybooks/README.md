@@ -16,9 +16,9 @@ StoryBooks is an app to share your life. A project from the course Node.js, Expr
 # Usage
 ```
 $ npm install
-```
-```
+
 $ npm start
+
 # or with nodemon
 $ nodemon
 
