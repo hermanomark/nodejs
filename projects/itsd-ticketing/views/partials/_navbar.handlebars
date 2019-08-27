@@ -2,16 +2,16 @@
     <div class="container">
         <div class="nav-wrapper">
             <a href="#" data-target="slide-out" class="button-collapse sidenav-trigger show-on-large"><i class="fa fa-bars"></i></a>
-            <a href="#!" class="brand-logo center">ITSD Ticketing System</a>
+            <a href="/" class="brand-logo center">ITSD Ticketing</a>
             <ul class="right hide-on-small-only">
-                {{!-- {{#if user}} --}}
+                {{#if user}}
                     <li><a href="/tickets"><i class="fas fa-ticket-alt fa-sm"></i> Home</a></li>
-                    <li><a href="/dashboard"><i class="fa fa-cog fa-sm"></i> {{user.firstName}}</a></li>
+                    <li><a href="/dashboard"><i class="fa fa-cog fa-sm"></i> {{user.name}}</a></li>
                     <li><a href="/users/logout"><i class="fa fa-sign-out fa-sm"></i> Sign out</a></li>
-                {{!-- {{else}} --}}
+                {{else}}
                     <li><a href="/users/login"> Sign in</a></li>
                     <li><a href="/users/register"> Sign up</a></li>
-                {{!-- {{/if}} --}}
+                {{/if}}
             </ul>
         </div>
     </div>

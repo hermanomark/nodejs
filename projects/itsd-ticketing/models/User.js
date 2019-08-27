@@ -14,11 +14,11 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    requester: {
+    support: {
         type: Boolean,
         default: false
     },
-    approver: {
+    user: {
         type: Boolean,
         default: false
     },

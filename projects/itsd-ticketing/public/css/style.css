@@ -1,0 +1,11 @@
+body {
+    font-family: "Trebuchet MS";
+}
+
+.welcome-card {
+    margin-top: 50px;
+}
+
+.card {
+    padding: 20px;
+}

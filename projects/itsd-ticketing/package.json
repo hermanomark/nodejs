@@ -1,5 +1,5 @@
 {
-  "name": "itsd-ticketing-system",
+  "name": "itsd-ticketing",
   "version": "1.0.0",
   "description": "An app for our company to create ticket to ITSD",
   "main": "app.js",

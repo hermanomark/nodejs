@@ -12,6 +12,7 @@ require('./models/User');
 // Load Routes
 const index = require('./routes/index');
 const users = require('./routes/users');
+const tickets = require('./routes/tickets');
 
 // Passport Config
 require('./config/passport')(passport);
@@ -52,9 +53,19 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Global variables
+app.use(function(req, res, next) {
+    // res.locals.success_msg = req.flash('success_msg');
+    // res.locals.error_msg = req.flash('error_msg');
+    // res.locals.error = req.flash('error');
+    res.locals.user = req.user || null;
+    next();
+});
+
 // Use Routes
 app.use('/', index);
 app.use('/users', users);
+app.use('/tickets', tickets);
 
 const port = process.env.PORT || 5000;
 
