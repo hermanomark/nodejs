@@ -16,8 +16,14 @@ const tickets = require('./routes/tickets');
 
 // Passport Config
 require('./config/passport')(passport);
+
 // Load Keys
 const keys = require('./config/keys');
+
+// Handlebars Helpers
+const {
+    select
+} = require('./helpers/hbs');
 
 // Map global promises
 mongoose.Promise = global.Promise;
@@ -32,7 +38,12 @@ mongoose.connect(keys.mongoURI, {
 const app = express();
 
 // Handlebars middleware
-app.engine('handlebars', exphbs());
+app.engine('handlebars', exphbs({
+    helpers: {
+        select: select
+    },
+    defaultLayout: 'main'
+}));
 app.set('view engine', 'handlebars');
 
 // Body parser moddileware

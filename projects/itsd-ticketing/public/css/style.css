@@ -1,3 +1,7 @@
+* {
+    outline: solid 1px red;   
+}
+
 body {
     font-family: "Trebuchet MS";
 }
@@ -6,6 +10,19 @@ body {
     margin-top: 50px;
 }
 
-.card {
-    padding: 20px;
+.custom-card-form {
+    margin-top: 40px;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.d-flex-row {
+    display: flex;
+    flex-direction: row;
 }
