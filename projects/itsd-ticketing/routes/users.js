@@ -4,12 +4,13 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const router = express.Router();
 const User = mongoose.model('users');
+const {ensureAuthenticated, ensureGuest} = require('../helpers/auth');
 
-router.get('/register', (req, res) => {
+router.get('/register', ensureGuest, (req, res) => {
     res.render('users/register');
 });
 
-router.get('/login', (req, res) => {
+router.get('/login', ensureGuest, (req, res) => {
     res.render('users/login');
 });
 

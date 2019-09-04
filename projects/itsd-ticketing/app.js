@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 
 // Load Models
 require('./models/User');
+require('./models/Ticket');
 
 // Load Routes
 const index = require('./routes/index');

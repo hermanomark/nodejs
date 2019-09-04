@@ -1,6 +1,6 @@
-* {
+/* * {
     outline: solid 1px red;   
-}
+} */
 
 body {
     font-family: "Trebuchet MS";
@@ -22,7 +22,16 @@ body {
     justify-content: center;
 }
 
+.justify-content-between {
+    justify-content: space-between;
+}
+
 .d-flex-row {
     display: flex;
     flex-direction: row;
 }
+
+.align-items-center {
+    align-items: center;
+}
+

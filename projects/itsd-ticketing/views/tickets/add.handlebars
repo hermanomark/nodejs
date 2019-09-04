@@ -13,14 +13,14 @@
                         </div>
                         <div class="col s12 m6">
                             <div class="input-field">
-                                <select name="status" id="">
-                                    <option value="public" selected>Information Technology</option>
-                                    <option value="private">Finance</option>
-                                    <option value="unpublished">Accounting</option>
-                                    <option value="unpublished">Marketing</option>
-                                    <option value="unpublished">Sales</option>
+                                <select name="department" id="">
+                                    <option value="information_technology" selected>Information Technology</option>
+                                    <option value="finance">Finance</option>
+                                    <option value="accounting">Accounting</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option value="sales">Sales</option>
                                 </select>
-                                <label for="title">Department</label>
+                                <label for="department">Department</label>
                             </div>
                         </div>
                     </div>
@@ -33,14 +33,23 @@
                         </div>
                         <div class="col s12 m4">
                             <div class="input-field">
+                                <select name="typeOfWork" id="">
+                                    <option value="software" selected>Software</option>
+                                    <option value="technical">Technical</option>
+                                </select>
                                 <label for="typeOfWork">Type of Work</label>
-                                <input type="text" name="typeOfWork">
                             </div>
                         </div>
                         <div class="col s12 m4">
                              <div class="input-field">
+                                <select name="system" id="">
+                                    <option value="cf4_generator" selected>CF4 Generator</option>
+                                    <option value="medsys">Medsys</option>
+                                    <option value="bizbox">Bizbox</option>
+                                    <option value="hris">HRIS</option>
+                                    <option value="queueing">Queueing</option>
+                                </select>
                                 <label for="system">System</label>
-                                <input type="text" name="system">
                             </div>
                         </div>
                     </div>
@@ -59,17 +68,17 @@
                                     <option value="hermano.mark.mh@gmail.com" selected>Mark Hermano</option>
                                     <option value="hermano.mark@yahoo.com">Mark Hermano Second</option>
                                 </select>
-                                <label for="title">Assigned To</label>
+                                <label for="assignedTo">Assigned To</label>
                             </div>
                         </div>
                         <div class="col s12 m6">
                              <div class="input-field">
-                                <select name="assignedTo" id="">
+                                <select name="status" id="">
                                     <option value="open" selected>Open</option>
                                     <option value="onprocess">On process</option>
                                     <option value="closed">Closed</option>
                                 </select>
-                                <label for="title">Status</label>
+                                <label for="status">Status</label>
                             </div>
                         </div>
                     </div>

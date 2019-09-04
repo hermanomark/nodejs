@@ -18,7 +18,7 @@ const TicketSchema = new Schema({
         type: Number,
         required: true
     },
-    tpyeOfWork: {
+    typeOfWork: {
         type: String,
         required: true
     },
@@ -35,8 +35,8 @@ const TicketSchema = new Schema({
         required: true
     },
     actionTaken: {
-        type: String,
-        required: true
+        type: String
+        // required: true
     },
     status: {
         type: String,
