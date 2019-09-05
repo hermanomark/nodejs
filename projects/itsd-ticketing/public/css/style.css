@@ -35,3 +35,7 @@ body {
     align-items: center;
 }
 
+.capitalize {
+    text-transform: capitalize;
+}
+

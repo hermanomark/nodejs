@@ -2,11 +2,11 @@
     <div class="container">
         <div class="nav-wrapper">
             <a href="#" data-target="slide-out" class="button-collapse sidenav-trigger show-on-large"><i class="fa fa-bars"></i></a>
-            <a href="/" class="brand-logo center">ITSD Ticketing</a>
+            <a href="/tickets" class="brand-logo center">ITSD Ticketing</a>
             <ul class="right hide-on-small-only">
                 {{#if user}}
                     <li><a href="/tickets"><i class="fas fa-ticket-alt fa-sm"></i> Home</a></li>
-                    <li><a href="/dashboard"><i class="fa fa-cog fa-sm"></i> {{user.name}}</a></li>
+                    <li><a href="/tickets/dashboard"><i class="fa fa-cog fa-sm"></i> Dashboard</a></li>
                     <li><a href="/users/logout"><i class="fa fa-sign-out fa-sm"></i> Sign out</a></li>
                 {{else}}
                     <li><a href="/users/login"> Sign in</a></li>
@@ -17,10 +17,16 @@
     </div>
 </nav>
  <ul id="slide-out" class="sidenav">
-    <li><a href=""><i class="fas fa-ticket-alt"></i> Home</a></li>
-    <li><a href=""><i class="fa fa-cog"></i> Dashboard</a></li>
+    {{#if user}}
+    <li><a href="#"> Welcome {{user.name}}</a></li>
+    <li><a href="/tickets"><i class="fas fa-ticket-alt"></i> Home</a></li>
+    <li><a href="/tickets/onprocess">OnProcess</a></li>
+    <li><a href="/tickets/closed">Closed</a></li>
+    <li><a href="/tickets/dashboard"><i class="fa fa-cog"></i> Dashboard</a></li>
     <li class="divider"></li>
     <li><a href=""><i class="fa fa-sign-out"></i> Sign out</a></li>
+    {{else}}
     <li><a href="/users/login"> Sign in</a></li>
     <li><a href="/users/register"> Sign up</a></li>
+    {{/if}}
 </ul>

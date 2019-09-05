@@ -3,6 +3,7 @@ const path = require('path');
 const exphbs = require('express-handlebars');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 const passport = require('passport');
 const mongoose = require('mongoose');
 
@@ -23,7 +24,9 @@ const keys = require('./config/keys');
 
 // Handlebars Helpers
 const {
-    select
+    select,
+    formatDate,
+    open
 } = require('./helpers/hbs');
 
 // Map global promises
@@ -41,7 +44,9 @@ const app = express();
 // Handlebars middleware
 app.engine('handlebars', exphbs({
     helpers: {
-        select: select
+        select: select,
+        formatDate: formatDate,
+        open: open
     },
     defaultLayout: 'main'
 }));
@@ -50,6 +55,9 @@ app.set('view engine', 'handlebars');
 // Body parser moddileware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// Method Override Middleware
+app.use(methodOverride('_method'));
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));

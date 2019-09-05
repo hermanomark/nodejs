@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col s12 d-flex justify-content-between align-items-center">
+        <h3>My Tickets</h3>
+        <a href="/tickets/add" class="waves-effect waves-light btn blue flow-btn">Create Ticket</a>      
+    </div>
+    <table class="highlight">
+        <thead>
+          <tr>
+              <th>Request ID</th>
+              <th>Problem</th>
+              <th>Type of Work</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th colspan="2">Customize</th>
+          </tr>
+        </thead>
+        <tbody>
+        {{#each tickets}}
+            <tr>
+                <td>{{requestId}}</td>
+                <td>{{problem}}</td>
+                <td class="capitalize">{{typeOfWork}}</td>
+                <td>{{status}}</td>
+                <td>{{formatDate date 'MMMM Do YYYY'}}</td>
+                <td><a class="btn left-align" href="/tickets/edit/{{id}}"><i class="fa fa-pencil"></i> Edit</a>
+                </td>
+                {{#open status}}
+                <td>
+                    <form action="/tickets/{{id}}?_method=DELETE" method="post" id="delete-form" onsubmit="return confirm('Do you really want to delete ticket?');">
+                        <input type="hidden" name="_method" value="DELETE">     <button type="submit" class="btn red"><i class="fa fa-remove"></i> Delete</button>
+                    </form>
+                </td>
+                {{/open}}
+            </tr>
+        {{/each}}
+        </tbody>
+      </table>
+</div>

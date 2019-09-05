@@ -31,16 +31,16 @@ const TicketSchema = new Schema({
         required: true
     },
     assignedTo: {
-        type: String,
-        required: true
+        type: String
+        // required: true
     },
     actionTaken: {
         type: String
         // required: true
     },
     status: {
-        type: String,
-        required: true
+        type: String
+        // required: true
     },
     user: {
         type: Schema.Types.ObjectId,
