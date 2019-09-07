@@ -39,3 +39,15 @@ body {
     text-transform: capitalize;
 }
 
+.readonly {
+  cursor: not-allowed;
+  color: #9E9E9E;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.top-back-btn {
+    margin-top: 20px;
+}

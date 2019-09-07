@@ -45,12 +45,38 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
         });
 });
 
+router.get('/show/:id', ensureAuthenticated, (req, res) => {
+    Ticket.findOne({
+        _id: req.params.id
+    })
+    .then(ticket => {
+        if (ticket.user != req.user.id) {
+            res.redirect('/tickets')
+        } else {
+            res.render('tickets/show', {
+                ticket: ticket
+            });
+        }
+    });
+});
+
 router.get('/add', ensureAuthenticated, (req, res) => {
     res.render('tickets/add')
 });
 
-router.get('/edit', ensureAuthenticated, (req, res) => {
-    res.render('tickets/edit')
+router.get('/edit/:id', ensureAuthenticated, (req, res) => {
+    Ticket.findOne({
+        _id: req.params.id
+    })
+    .then(ticket => {
+        if (ticket.user != req.user.id) {
+            res.redirect('/tickets')
+        } else {
+            res.render('tickets/edit', {
+                ticket: ticket
+            });
+        }
+    });
 });
 
 router.post('/', ensureAuthenticated, (req, res) => {
@@ -105,6 +131,46 @@ router.post('/', ensureAuthenticated, (req, res) => {
                 res.redirect('/tickets');
             });
     }
+});
+
+router.put('/:id', ensureAuthenticated, (req, res) => {
+    let errors = [];
+
+    if (!req.body.problem) {
+        errors.push({text: 'Please add a problem'});
+    }
+    if (!req.body.requestedBy) {
+        errors.push({text: 'Please add some requestedBy'});
+    }
+
+    Ticket.findOne({
+        _id: req.params.id
+    })
+    .then(ticket => {
+        if(errors.length > 0) {
+            res.render('tickets/edit', {
+                errors: errors,
+                ticket: {
+                    id: ticket.id,
+                    requestedBy: req.body.title,
+                    problem: req.body.problem,
+                }
+            });
+        } else {
+             // new values
+            ticket.department = req.body.department;
+            ticket.local = req.body.local;
+            ticket.typeOfWork = req.body.typeOfWork;
+            ticket.system = req.body.system;
+            ticket.problem = req.body.problem;
+
+            ticket.save()
+            .then(ticket => { 
+                // req.flash('success_msg', 'Ticket updated');
+                res.redirect('/tickets/dashboard')
+            });
+        }
+    });
 });
 
 router.delete('/:id', (req, res) => {

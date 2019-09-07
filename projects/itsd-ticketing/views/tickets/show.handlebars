@@ -1,0 +1,132 @@
+<div class="row">
+    <div class="col s12 m12">
+        <a href="/tickets/dashboard" class="waves-effect waves-light btn grey top-back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+        <h3 class="header">Ticket: <span class="uppercase">{{ticket.requestId}}</span></h3>
+        <div class="card custom-card-form">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col s12 m6">
+                        <label for="requestId">Request ID</label>
+                        {{#if ticket.requestId}}
+                        <p class="uppercase">{{ticket.requestId}}</p>
+                        <hr>
+                        {{else}}
+                        <p>&nbsp;</p>
+                        <hr>
+                        {{/if}}
+                    </div>
+                    <div class="col s12 m6">
+                        <label for="requestId">Date</label>
+                        {{#if ticket.date}}
+                        <p>{{formatDate ticket.date 'MMMM Do YYYY'}}</p>
+                        <hr>
+                        {{else}}
+                        <p>&nbsp;</p>
+                        <hr>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m6">
+                        <label for="requestedBy">Requested By</label>
+                        {{#if ticket.requestedBy}}
+                        <p>{{ticket.requestedBy}}</p>
+                        <hr>
+                        {{else}}
+                        <p>&nbsp;</p>
+                        <hr>
+                        {{/if}}
+                    </div>
+                    <div class="col s12 m6">
+                        <label for="department">Department</label>
+                        {{#if ticket.department}}
+                        <p class="capitalize">{{ticket.department}}</p>
+                        <hr>
+                        {{else}}
+                        <p>&nbsp;</p>
+                        <hr>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m4">
+                        <label for="local">Local</label>
+                        {{#if ticket.local}}
+                        <p>{{ticket.local}}</p>
+                        <hr>
+                        {{else}}
+                        <p>&nbsp;</p>
+                        <hr>
+                        {{/if}}
+                    </div>
+                    <div class="col s12 m4">
+                        <label for="typeOfWork">Type of Work</label>
+                        {{#if ticket.typeOfWork}}
+                        <p class="capitalize">{{ticket.typeOfWork}}</p>
+                        <hr>
+                        {{else}}
+                        <p>&nbsp;</p>
+                        <hr>
+                        {{/if}}
+                    </div>
+                    <div class="col s12 m4">
+                        <label for="system">System</label>
+                        {{#if ticket.system}}
+                        <p class="capitalize">{{ticket.system}}</p>
+                        <hr>
+                        {{else}}
+                        <p>&nbsp;</p>
+                        <hr>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <label for="problem">Problem</label>
+                        {{#if ticket.problem}}
+                        <p>{{ticket.problem}}</p>
+                        <hr>
+                        {{else}}
+                        <p>&nbsp;</p>
+                        <hr>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m6">
+                        <label for="assignedTo">Assigned To</label>
+                        {{#if ticket.assignedTo}}
+                        <p>{{ticket.assignedTo}}</p>
+                        <hr>
+                        {{else}}
+                        <p>&nbsp;</p>
+                        <hr>
+                        {{/if}}
+                    </div>
+                    <div class="col s12 m6">
+                        <label for="status">Status</label>
+                        {{#if ticket.status}}
+                        <p class="capitalize">{{ticket.status}}</p>
+                        <hr>
+                        {{else}}
+                        <p>&nbsp;</p>
+                        <hr>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <label for="actionTaken">Action Taken</label>
+                        {{#if ticket.actionTaken}}
+                        <p>{{ticket.actionTaken}}</p>
+                        <hr>
+                        {{else}}
+                        <p>&nbsp;</p>
+                        <hr>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

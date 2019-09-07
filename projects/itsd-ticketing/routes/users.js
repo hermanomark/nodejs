@@ -18,8 +18,8 @@ router.get('/login', ensureGuest, (req, res) => {
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
         successRedirect: '/tickets',
-        failureRedirect: '/users/login',
-        failureFlash: true
+        failureRedirect: '/users/login'
+        // failureFlash: true
     })(req, res, next);
 });
 
