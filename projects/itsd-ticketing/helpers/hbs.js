@@ -7,9 +7,16 @@ module.exports = {
     select: function(selected, options) {
         return options.fn(this).replace(new RegExp(' value=\"' + selected + '\"'), '$& selected="selected"').replace(new RegExp('>' + selected + '</option>'), ' selected="selected" $&');
     },
-    open: function(status, options) {
+    openTicket: function(status, options) {
         if (status === 'open') {
             return options.fn(this);
+        }
+        return options.inverse(this);
+    },
+    adminRole: function(isAdmin, options) {
+        if (isAdmin === true) {
+            return options.fn(this);
+            console.log('admin test');
         }
         return options.inverse(this);
     }

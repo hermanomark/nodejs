@@ -26,7 +26,8 @@ const keys = require('./config/keys');
 const {
     select,
     formatDate,
-    open
+    openTicket,
+    adminRole
 } = require('./helpers/hbs');
 
 // Map global promises
@@ -46,7 +47,8 @@ app.engine('handlebars', exphbs({
     helpers: {
         select: select,
         formatDate: formatDate,
-        open: open
+        openTicket: openTicket,
+        adminRole: adminRole
     },
     defaultLayout: 'main'
 }));

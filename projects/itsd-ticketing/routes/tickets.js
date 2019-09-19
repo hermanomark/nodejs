@@ -12,7 +12,7 @@ router.get('/', ensureAuthenticated, (req, res) => {
             res.render('tickets/index', {
                 tickets: tickets
             });
-        })
+        });
 });
 
 router.get('/onprocess', ensureAuthenticated, (req, res) => {
@@ -176,7 +176,7 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
 router.delete('/:id', (req, res) => {
     Ticket.remove({_id: req.params.id})
         .then(() => {
-            res.redirect('tickets/dashboard');
+            res.redirect('/tickets/dashboard');
         });
 });
 

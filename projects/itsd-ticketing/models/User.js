@@ -14,15 +14,15 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    support: {
+    isSupport: {
         type: Boolean,
         default: false
     },
-    user: {
+    isUser: {
         type: Boolean,
         default: false
     },
-    admin: {
+    isAdmin: {
         type: Boolean,
         default: false
     },

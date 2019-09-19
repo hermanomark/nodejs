@@ -24,13 +24,13 @@
                 <td>{{formatDate date 'MMMM Do YYYY'}}</td>
                 <td><a class="btn left-align" href="/tickets/edit/{{id}}"><i class="fa fa-pencil"></i> Edit</a>
                 </td>
-                {{#open status}}
+                {{#openTicket status}}
                 <td>
                     <form action="/tickets/{{id}}?_method=DELETE" method="post" id="delete-form" onsubmit="return confirm('Do you really want to delete ticket?');">
                         <input type="hidden" name="_method" value="DELETE">     <button type="submit" class="btn red"><i class="fa fa-remove"></i> Delete</button>
                     </form>
                 </td>
-                {{/open}}
+                {{/openTicket}}
             </tr>
         {{/each}}
         </tbody>

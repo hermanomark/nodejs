@@ -23,8 +23,11 @@
     <li><a href="/tickets/onprocess">OnProcess</a></li>
     <li><a href="/tickets/closed">Closed</a></li>
     <li><a href="/tickets/dashboard"><i class="fa fa-cog"></i> Dashboard</a></li>
+    {{#adminRole user.isAdmin}}
+    <li><a href="/users">Manage Accounts</a></li>
+    {{/adminRole}}
     <li class="divider"></li>
-    <li><a href=""><i class="fa fa-sign-out"></i> Sign out</a></li>
+    <li><a href="/users/logout"><i class="fa fa-sign-out"></i> Sign out</a></li>
     {{else}}
     <li><a href="/users/login"> Sign in</a></li>
     <li><a href="/users/register"> Sign up</a></li>
