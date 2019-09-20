@@ -19,9 +19,13 @@ router.get('/onprocess', ensureAuthenticated, (req, res) => {
     Ticket.find({status: 'onprocess'})
         .sort({date: 'desc'})
         .then(tickets => {
-            res.render('tickets/onprocess', {
-                tickets: tickets
-            });
+            if (req.user.isSupport === true) {
+                res.render('tickets/onprocess', {
+                    tickets: tickets
+                });
+            } else {
+                res.redirect('/tickets');
+            }
         })
 });
 
@@ -29,9 +33,13 @@ router.get('/closed', ensureAuthenticated, (req, res) => {
     Ticket.find({status: 'closed'})
         .sort({date: 'desc'})
         .then(tickets => {
-            res.render('tickets/closed', {
-                tickets: tickets
-            });
+            if (req.user.isSupport === true) {
+                res.render('tickets/closed', {
+                    tickets: tickets
+                });
+            } else {
+                res.redirect('/tickets');
+            }
         })
 });
 
@@ -50,18 +58,18 @@ router.get('/show/:id', ensureAuthenticated, (req, res) => {
         _id: req.params.id
     })
     .then(ticket => {
-        if (ticket.user != req.user.id) {
-            res.redirect('/tickets')
-        } else {
+        if (ticket.user == req.user.id || req.user.isSupport === true) {
             res.render('tickets/show', {
                 ticket: ticket
             });
+        } else {
+            res.redirect('/tickets')
         }
     });
 });
 
 router.get('/add', ensureAuthenticated, (req, res) => {
-    res.render('tickets/add')
+    res.render('tickets/add');
 });
 
 router.get('/edit/:id', ensureAuthenticated, (req, res) => {
@@ -69,10 +77,37 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
         _id: req.params.id
     })
     .then(ticket => {
-        if (ticket.user != req.user.id) {
-            res.redirect('/tickets')
-        } else {
+        if (ticket.user == req.user.id && ticket.status === 'open') {
             res.render('tickets/edit', {
+                ticket: ticket
+            });
+        } else {
+            res.redirect('/tickets');
+        }
+    });
+});
+
+router.get('/supportadd', ensureAuthenticated, (req, res) => {
+    if (req.user.isSupport === true) {
+        console.log('You are a support, accepted')
+        res.render('tickets/supportadd')
+    } else {
+        console.log('You are not a support')
+        res.redirect('/tickets');
+    }
+});
+
+router.get('/supportedit/:id', ensureAuthenticated, (req, res) => {
+    Ticket.findOne({
+        _id: req.params.id
+    })
+    .then(ticket => {
+        if (req.user.isSupport !== true) {
+            console.log('You are not a support')
+            res.redirect('/tickets');
+        } else {
+            console.log('You are a support, accepted')
+            res.render('tickets/supportedit', {
                 ticket: ticket
             });
         }
@@ -128,6 +163,60 @@ router.post('/', ensureAuthenticated, (req, res) => {
             .save()
             .then(ticket => {
                 // req.flash('success_msg', 'Video idea added');
+                res.redirect('/tickets/dashboard');
+            });
+    }
+});
+
+router.post('/supportadd', ensureAuthenticated, (req, res) => {
+    let errors = [];
+
+    if (!req.body.problem) {
+        errors.push({text: 'Please state your problem'});
+    }
+    if (!req.body.requestedBy) {
+        errors.push({text: 'Please add a requester'});
+    }
+
+    if(errors.length > 0) {
+        res.render('tickets/supportadd', {
+            errors: errors,
+            problem: req.body.problem,
+            requestedBy: req.body.requestedBy
+        });
+
+        errors.forEach((error) => {
+            console.log(error.text);
+        });
+
+    } else {
+        const randomId = () => {
+            return (
+                Number(String(Math.random()).slice(2)) + 
+                Date.now() + 
+                Math.round(performance.now())
+            ).toString(36);
+        }
+
+        const requestId = randomId();
+
+        const newTicket = {
+            requestId: requestId,
+            requestedBy: req.body.requestedBy,
+            department: req.body.department,
+            local: req.body.local,
+            typeOfWork: req.body.typeOfWork,
+            system: req.body.system,
+            problem: req.body.problem,
+            assignedTo: req.body.assignedTo,
+            status: req.body.status,
+            user: req.user.id
+        }
+
+        new Ticket(newTicket)
+            .save()
+            .then(ticket => {
+                // req.flash('success_msg', 'Video idea added');
                 res.redirect('/tickets');
             });
     }
@@ -157,7 +246,6 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
                 }
             });
         } else {
-             // new values
             ticket.department = req.body.department;
             ticket.local = req.body.local;
             ticket.typeOfWork = req.body.typeOfWork;
@@ -168,6 +256,48 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
             .then(ticket => { 
                 // req.flash('success_msg', 'Ticket updated');
                 res.redirect('/tickets/dashboard')
+            });
+        }
+    });
+});
+
+router.put('/supportedit/:id', ensureAuthenticated, (req, res) => {
+    let errors = [];
+
+    if (!req.body.problem) {
+        errors.push({text: 'Please add a problem'});
+    }
+    if (!req.body.requestedBy) {
+        errors.push({text: 'Please add some requestedBy'});
+    }
+
+    Ticket.findOne({
+        _id: req.params.id
+    })
+    .then(ticket => {
+        if(errors.length > 0) {
+            res.render('tickets/supportedit', {
+                errors: errors,
+                ticket: {
+                    id: ticket.id,
+                    requestedBy: req.body.title,
+                    problem: req.body.problem,
+                }
+            });
+        } else {
+            ticket.requestedBy = req.body.requestedBy;
+            ticket.department = req.body.department;
+            ticket.local = req.body.local;
+            ticket.typeOfWork = req.body.typeOfWork;
+            ticket.system = req.body.system;
+            ticket.problem = req.body.problem;
+            ticket.assignedTo = req.body.assignedTo;
+            ticket.status =  req.body.status;
+
+            ticket.save()
+            .then(ticket => { 
+                // req.flash('success_msg', 'Ticket updated');
+                res.redirect('/tickets')
             });
         }
     });

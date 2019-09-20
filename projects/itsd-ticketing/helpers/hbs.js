@@ -13,10 +13,21 @@ module.exports = {
         }
         return options.inverse(this);
     },
+    takenTicket: function(status, options) {
+        if (status === 'onprocess' || status === 'closed') {
+            return options.fn(this);
+        }
+        return options.inverse(this);
+    },
     adminRole: function(isAdmin, options) {
         if (isAdmin === true) {
             return options.fn(this);
-            console.log('admin test');
+        }
+        return options.inverse(this);
+    },
+    supportRole: function(isSupport, options) {
+        if (isSupport === true) {
+            return options.fn(this);
         }
         return options.inverse(this);
     }

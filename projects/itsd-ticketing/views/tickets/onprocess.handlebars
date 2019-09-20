@@ -17,7 +17,7 @@
         <tbody>
         {{#each tickets}}
             <tr>
-                <td>{{requestId}}</td>
+                <td><a href="/tickets/show/{{id}}">{{requestId}}</a></td>
                 <td>{{requestedBy}}</td>
                 <td class="capitalize">{{department}}</td>
                 <td>{{problem}}</td>

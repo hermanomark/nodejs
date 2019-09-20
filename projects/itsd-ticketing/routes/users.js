@@ -147,6 +147,10 @@ router.post('/add', (req, res) => {
         isUser = false;
     }
 
+    if (!req.body.email) {
+        errors.push({text: 'Please add an email'});
+    }
+
     if (req.body.password !== req.body.password2) {
         errors.push({text: "Password do not match"});
     }
@@ -202,6 +206,66 @@ router.post('/add', (req, res) => {
                 }
             });
     }
+});
+
+router.put('/:id', ensureAuthenticated, (req, res) => {
+    let errors = [];
+    let isSupport;
+    let isAdmin;
+    let isUser;
+
+    if (req.body.isSupport) {
+        isSupport = true;
+    } else {
+        isSupport = false;
+    }
+
+    if (req.body.isAdmin) {
+        isAdmin = true;
+    } else {
+        isAdmin = false;
+    }
+
+    if (req.body.isUser) {
+        isUser = true;
+    } else {
+        isUser = false;
+    }
+
+    if (!req.body.email) {
+        errors.push({text: 'Please add an email'});
+    }
+
+    User.findOne({
+        _id: req.params.id
+    })
+    .then(user => {
+        if(errors.length > 0) {
+            res.render('users/edit', {
+                errors: errors,
+                user: {
+                    name: req.body.name,
+                    email: req.body.email,
+                    isSupport: isSupport,
+                    isUser: isUser,
+                    isAdmin: isAdmin
+                }
+            });
+        } else {
+            // new values
+            user.name = req.body.name;
+            user.email = req.body.email;
+            user.isSupport = isSupport;
+            user.isUser = isUser;
+            user.isAdmin = isAdmin;
+
+            user.save()
+            .then(user => { 
+                // req.flash('success_msg', 'User updated');
+                res.redirect('/users')
+            });
+        }
+    });
 });
 
 router.delete('/:id', (req, res) => {

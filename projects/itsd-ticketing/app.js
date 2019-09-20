@@ -27,7 +27,9 @@ const {
     select,
     formatDate,
     openTicket,
-    adminRole
+    takenTicket,
+    adminRole,
+    supportRole
 } = require('./helpers/hbs');
 
 // Map global promises
@@ -48,7 +50,9 @@ app.engine('handlebars', exphbs({
         select: select,
         formatDate: formatDate,
         openTicket: openTicket,
-        adminRole: adminRole
+        takenTicket: takenTicket,
+        adminRole: adminRole,
+        supportRole: supportRole
     },
     defaultLayout: 'main'
 }));

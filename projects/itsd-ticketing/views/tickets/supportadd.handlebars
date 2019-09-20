@@ -1,15 +1,15 @@
 <div class="row">
     <div class="col s12 m12">
-        <a href="/tickets/dashboard" class="waves-effect waves-light btn grey top-back-btn"><i class="fas fa-arrow-left"></i> Back</a>
-        <h3 class="header">Ticket your concern</h3>
+        <a href="/tickets" class="waves-effect waves-light btn grey top-back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+        <h3 class="header">Create a Ticket</h3>
         <div class="card custom-card-form">
             <div class="card-content">
-                <form action="/tickets" method="post">
+                <form action="/tickets/supportadd" method="post">
                     <div class="row">
                         <div class="col s12 m6">
                             <div class="input-field">
                                 <label for="requestedBy">Requested By</label>
-                                <input type="text" name="requestedBy" value="{{user.name}}" readonly class="readonly">
+                                <input type="text" name="requestedBy">
                             </div>
                         </div>
                         <div class="col s12 m6">
@@ -45,7 +45,7 @@
                              <div class="input-field">
                                 <select name="system" id="">
                                     <option value="not_applicable" selected>Not Applicable</option>
-                                    <option value="cf4_generator" selected>CF4 Generator</option>
+                                    <option value="cf4_generator">CF4 Generator</option>
                                     <option value="medsys">Medsys</option>
                                     <option value="bizbox">Bizbox</option>
                                     <option value="hris">HRIS</option>
@@ -60,6 +60,27 @@
                              <div class="input-field">
                                 <label for="problem">Problem</label>
                                 <textarea name="problem" class="materialize-textarea" rows="4"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <div class="input-field">
+                                <select name="assignedTo" id="">
+                                    <option value="hermano.mark.mh@gmail.com" selected>Mark Hermano</option>
+                                    <option value="hermano.mark@yahoo.com">Mark Hermano Second</option>
+                                </select>
+                                <label for="assignedTo">Assigned To</label>
+                            </div>
+                        </div>
+                        <div class="col s12 m6">
+                             <div class="input-field">
+                                <select name="status" id="">
+                                    <option value="open" selected>Open</option>
+                                    <option value="onprocess">On process</option>
+                                    <option value="closed">Closed</option>
+                                </select>
+                                <label for="status">Status</label>
                             </div>
                         </div>
                     </div>

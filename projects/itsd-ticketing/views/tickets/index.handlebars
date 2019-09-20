@@ -1,29 +1,42 @@
 <div class="row">
     <div class="col s12 d-flex justify-content-between align-items-center">
-        <h3>Tickets: Open</h3> 
+        <h3>Tickets: Open</h3>
+        {{#supportRole user.isSupport}}
+        <a href="/tickets/supportadd" class="waves-effect waves-light btn blue flow-btn">Create Ticket</a>
+        {{/supportRole}}
     </div>
     <table class="highlight">
         <thead>
           <tr>
               <th>Request ID</th>
               <th>Requested By</th>
-              <th>Department</th>
               <th>Problem</th>
               <th>Local</th>
               <th>Type of Work</th>
               <th>Date</th>
+              {{#supportRole user.isSupport}}
+              <th colspan="2">Customize</th>
+              {{/supportRole}}
           </tr>
         </thead>
         <tbody>
         {{#each tickets}}
             <tr>
-                <td>{{requestId}}</td>
+                <td><a href="/tickets/show/{{id}}">{{requestId}}</a></td>
                 <td>{{requestedBy}}</td>
-                <td class="capitalize">{{department}}</td>
                 <td>{{problem}}</td>
                 <td>{{local}}</td>
                 <td class="capitalize">{{typeOfWork}}</td>
                 <td>{{formatDate date 'MMMM Do YYYY'}}</td>
+                {{#supportRole ../user.isSupport}}
+                <td><a class="btn left-align" href="/tickets/supportedit/{{id}}"><i class="fa fa-pencil"></i> Edit</a>
+                </td>
+                <td>
+                    <form action="/tickets/{{id}}?_method=DELETE" method="post" id="delete-form" onsubmit="return confirm('Do you really want to delete ticket?');">
+                        <input type="hidden" name="_method" value="DELETE">     <button type="submit" class="btn red"><i class="fa fa-remove"></i> Delete</button>
+                    </form>
+                </td>
+                {{/supportRole}}
             </tr>
         {{/each}}
         </tbody>
