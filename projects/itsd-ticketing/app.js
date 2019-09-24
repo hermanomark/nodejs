@@ -4,6 +4,7 @@ const exphbs = require('express-handlebars');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
+const flash = require('connect-flash');
 const passport = require('passport');
 const mongoose = require('mongoose');
 
@@ -79,11 +80,14 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Connect-flash middleware
+app.use(flash());
+
 // Global variables
 app.use(function(req, res, next) {
-    // res.locals.success_msg = req.flash('success_msg');
-    // res.locals.error_msg = req.flash('error_msg');
-    // res.locals.error = req.flash('error');
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error');
     res.locals.user = req.user || null;
     next();
 });

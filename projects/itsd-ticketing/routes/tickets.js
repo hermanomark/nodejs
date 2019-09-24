@@ -162,7 +162,7 @@ router.post('/', ensureAuthenticated, (req, res) => {
         new Ticket(newTicket)
             .save()
             .then(ticket => {
-                // req.flash('success_msg', 'Video idea added');
+                req.flash('success_msg', 'Ticket added');
                 res.redirect('/tickets/dashboard');
             });
     }
@@ -177,12 +177,16 @@ router.post('/supportadd', ensureAuthenticated, (req, res) => {
     if (!req.body.requestedBy) {
         errors.push({text: 'Please add a requester'});
     }
+    if (!req.body.actionTaken) {
+        errors.push({text: 'Please add an action taken'});
+    }
 
     if(errors.length > 0) {
         res.render('tickets/supportadd', {
             errors: errors,
             problem: req.body.problem,
-            requestedBy: req.body.requestedBy
+            requestedBy: req.body.requestedBy,
+            actionTaken: req.body.actionTaken
         });
 
         errors.forEach((error) => {
@@ -210,14 +214,22 @@ router.post('/supportadd', ensureAuthenticated, (req, res) => {
             problem: req.body.problem,
             assignedTo: req.body.assignedTo,
             status: req.body.status,
+            actionTaken: req.body.actionTaken,
             user: req.user.id
         }
 
         new Ticket(newTicket)
             .save()
             .then(ticket => {
-                // req.flash('success_msg', 'Video idea added');
-                res.redirect('/tickets');
+                req.flash('success_msg', 'Ticket added');
+                console.log(`Ticket added: ${ticket.status}`);
+                if (ticket.status === 'onprocess') {
+                    res.redirect('/tickets/onprocess');
+                } else if (ticket.status === 'closed') {
+                    res.redirect('/tickets/closed');
+                } else {
+                    res.redirect('/tickets');
+                }
             });
     }
 });
@@ -254,7 +266,8 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
 
             ticket.save()
             .then(ticket => { 
-                // req.flash('success_msg', 'Ticket updated');
+                req.flash('success_msg', 'Ticket updated');
+                console.log(`Ticket updated`);
                 res.redirect('/tickets/dashboard')
             });
         }
@@ -270,6 +283,9 @@ router.put('/supportedit/:id', ensureAuthenticated, (req, res) => {
     if (!req.body.requestedBy) {
         errors.push({text: 'Please add some requestedBy'});
     }
+    if (!req.body.actionTaken) {
+        errors.push({text: 'Please add an action taken'});
+    }
 
     Ticket.findOne({
         _id: req.params.id
@@ -280,8 +296,9 @@ router.put('/supportedit/:id', ensureAuthenticated, (req, res) => {
                 errors: errors,
                 ticket: {
                     id: ticket.id,
-                    requestedBy: req.body.title,
+                    requestedBy: req.body.requestedBy,
                     problem: req.body.problem,
+                    actionTaken: req.body.actionTaken
                 }
             });
         } else {
@@ -293,11 +310,19 @@ router.put('/supportedit/:id', ensureAuthenticated, (req, res) => {
             ticket.problem = req.body.problem;
             ticket.assignedTo = req.body.assignedTo;
             ticket.status =  req.body.status;
+            ticket.actionTaken = req.body.actionTaken;
 
             ticket.save()
             .then(ticket => { 
-                // req.flash('success_msg', 'Ticket updated');
-                res.redirect('/tickets')
+                req.flash('success_msg', 'Ticket updated');
+                console.log(`Ticket updated: ${ticket.status}`);
+                if (ticket.status === 'onprocess') {
+                    res.redirect('/tickets/onprocess');
+                } else if (ticket.status === 'closed') {
+                    res.redirect('/tickets/closed');
+                } else {
+                    res.redirect('/tickets');
+                }
             });
         }
     });

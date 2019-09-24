@@ -8,16 +8,16 @@ const {ensureAuthenticated, ensureGuest} = require('../helpers/auth');
 
 router.get('/', ensureAuthenticated, (req, res) => {
     if (req.user.isAdmin === true) {
-        console.log('Access to admin ' + req.user.email + ' has been accepted');
         User.find()
             .sort({date: 'desc'})
             .then(users => {
+                req.flash('success_msg', 'Access to page accepted');
                 res.render('users/index', {
                     users: users
                 });
             });
     } else {
-        console.log('You are not an admin');
+        req.flash('error_msg', 'Access to page denied');
         res.redirect('/tickets');
     }
 });
@@ -32,10 +32,9 @@ router.get('/login', ensureGuest, (req, res) => {
 
 router.get('/add', ensureAuthenticated, (req, res) => {
     if (req.user.isAdmin === true) {
-        console.log('Access to admin ' + req.user.email + ' has been accepted');
         res.render('users/add');
     } else {
-        console.log('You are not an admin');
+        req.flash('error_msg', 'Access to page denied');
         res.redirect('/tickets');
     }
 });
@@ -51,7 +50,7 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
             });
         });
     } else {
-        console.log('You are not an admin');
+        req.flash('error_msg', 'Access to page denied');
         res.redirect('/tickets');
     }
 });
@@ -59,8 +58,8 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
         successRedirect: '/tickets',
-        failureRedirect: '/users/login'
-        // failureFlash: true
+        failureRedirect: '/users/login',
+        failureFlash: true
     })(req, res, next);
 });
 
@@ -87,8 +86,8 @@ router.post('/register', (req, res) => {
         User.findOne({email: req.body.email})
             .then(user => {
                 if (user) {
-                    // req.flash('error_msg', 'Email already reigstered');
-                    res.redirect('/users/register')
+                    req.flash('error_msg', 'Email already reigstered');
+                    res.redirect('/users/register');
                 } else {
                     const newUser = new User ({
                         name: req.body.name,
@@ -103,7 +102,7 @@ router.post('/register', (req, res) => {
                             newUser.password = hash;
                             newUser.save()
                                 .then(user => {
-                                    // req.flash('success_msg', 'You are now registered and can log in');
+                                    req.flash('success_msg', 'You are now registered and can log in');
                                     res.redirect('/users/login');
                                 })
                                 .catch(err => {
@@ -119,7 +118,7 @@ router.post('/register', (req, res) => {
 
 router.get('/logout', (req, res) => {
     req.logout();
-    // req.flash('success_msg', 'You are logged out');
+    req.flash('success_msg', 'You are logged out');
     res.redirect('/users/login');
 });
 
@@ -174,8 +173,7 @@ router.post('/add', (req, res) => {
         User.findOne({email: req.body.email})
             .then(user => {
                 if (user) {
-                    // req.flash('error_msg', 'Email already reigstered');
-                    console.log('email is already registered')
+                    req.flash('error_msg', 'Email already reigstered');
                     res.redirect('/users/add')
                 } else {
                     const newUser = new User ({
@@ -193,8 +191,7 @@ router.post('/add', (req, res) => {
                             newUser.password = hash;
                             newUser.save()
                                 .then(user => {
-                                    // req.flash('success_msg', 'You are now registered and can log in');
-                                    console.log('user successfully registered')
+                                    req.flash('success_msg', 'User registered');
                                     res.redirect('/users');
                                 })
                                 .catch(err => {
@@ -261,7 +258,7 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
 
             user.save()
             .then(user => { 
-                // req.flash('success_msg', 'User updated');
+                req.flash('success_msg', 'User updated');
                 res.redirect('/users')
             });
         }
@@ -271,6 +268,7 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
 router.delete('/:id', (req, res) => {
     User.remove({_id: req.params.id})
         .then(() => {
+            req.flash('success_msg', 'User deleted');
             res.redirect('/users');
         });
 });

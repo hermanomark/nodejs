@@ -1,0 +1,20 @@
+{{#if success_msg}}
+
+<body onload="M.toast({html: '{{success_msg}}', classes: 'green rounded'})">
+
+</body>
+{{/if}} 
+
+{{#if error_msg}}
+
+<body onload="M.toast({html: '{{error_msg}}', classes: 'red rounded'})">
+
+</body>
+{{/if}} 
+
+{{#if error}}
+
+<body onload="M.toast({html: '{{error}}', classes: 'red rounded'})">
+
+</body>
+{{/if}}
