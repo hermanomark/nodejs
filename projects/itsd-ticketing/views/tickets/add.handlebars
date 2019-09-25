@@ -8,18 +8,20 @@
                     <div class="row">
                         <div class="col s12 m6">
                             <div class="input-field">
-                                <label for="requestedBy">Requested By</label>
+                                <label id="requestedBy" for="requestedBy">Requested By</label>
                                 <input type="text" name="requestedBy" value="{{user.name}}" readonly class="readonly">
                             </div>
                         </div>
                         <div class="col s12 m6">
                             <div class="input-field">
-                                <select name="department" id="">
-                                    <option value="information_technology" selected>Information Technology</option>
+                                <select name="department" id="department">
+                                    {{#select department}}
+                                    <option value="information technology" selected>Information Technology</option>
                                     <option value="finance">Finance</option>
                                     <option value="accounting">Accounting</option>
                                     <option value="marketing">Marketing</option>
                                     <option value="sales">Sales</option>
+                                    {{/select}}
                                 </select>
                                 <label for="department">Department</label>
                             </div>
@@ -29,27 +31,31 @@
                         <div class="col s12 m4">
                             <div class="input-field">
                                 <label for="local">Local</label>
-                                <input type="number" name="local">
+                                <input id="local" type="number" name="local" value="{{local}}">
                             </div>
                         </div>
                         <div class="col s12 m4">
                             <div class="input-field">
-                                <select name="typeOfWork" id="">
+                                <select name="typeOfWork" id="typeOfWork">
+                                    {{#select typeOfWork}}
                                     <option value="software" selected>Software</option>
                                     <option value="technical">Technical</option>
+                                    {{/select}}
                                 </select>
                                 <label for="typeOfWork">Type of Work</label>
                             </div>
                         </div>
                         <div class="col s12 m4">
                              <div class="input-field">
-                                <select name="system" id="">
-                                    <option value="not_applicable" selected>Not Applicable</option>
-                                    <option value="cf4_generator" selected>CF4 Generator</option>
+                                <select name="system" id="system">
+                                    {{#select system}}
+                                    <option value="not applicable" selected>Not Applicable</option>
+                                    <option value="cf4 generator">CF4 Generator</option>
                                     <option value="medsys">Medsys</option>
                                     <option value="bizbox">Bizbox</option>
                                     <option value="hris">HRIS</option>
                                     <option value="queueing">Queueing</option>
+                                    {{/select}}
                                 </select>
                                 <label for="system">System</label>
                             </div>
@@ -59,7 +65,7 @@
                         <div class="col s12">
                              <div class="input-field">
                                 <label for="problem">Problem</label>
-                                <textarea name="problem" class="materialize-textarea" rows="4"></textarea>
+                                <textarea id="problem" name="problem" class="materialize-textarea" rows="4">{{problem}}</textarea>
                             </div>
                         </div>
                     </div>

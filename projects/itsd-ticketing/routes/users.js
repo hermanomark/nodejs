@@ -66,6 +66,14 @@ router.post('/login', (req, res, next) => {
 router.post('/register', (req, res) => {
     let errors = [];
 
+    if (!req.body.name) {
+        errors.push({text: "Please add name"})
+    }
+
+    if (!req.body.email) {
+        errors.push({text: "Please add an email"})
+    }
+
     if (req.body.password !== req.body.password2) {
         errors.push({text: "Password do not match"});
     }
@@ -93,7 +101,7 @@ router.post('/register', (req, res) => {
                         name: req.body.name,
                         email: req.body.email,
                         password: req.body.password,
-                        user: true
+                        isUser: true
                     });
             
                     bcrypt.genSalt(10, (err, salt) => {
@@ -122,7 +130,7 @@ router.get('/logout', (req, res) => {
     res.redirect('/users/login');
 });
 
-router.post('/add', (req, res) => {
+router.post('/add', ensureAuthenticated, (req, res) => {
     let errors = [];
     let isSupport;
     let isAdmin;
@@ -144,6 +152,10 @@ router.post('/add', (req, res) => {
         isUser = true;
     } else {
         isUser = false;
+    }
+
+    if (!req.body.name) {
+        errors.push({text: "Please add name"})
     }
 
     if (!req.body.email) {
@@ -229,8 +241,8 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
         isUser = false;
     }
 
-    if (!req.body.email) {
-        errors.push({text: 'Please add an email'});
+    if (!req.body.name) {
+        errors.push({text: "Please add name"})
     }
 
     User.findOne({
@@ -241,8 +253,8 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
             res.render('users/edit', {
                 errors: errors,
                 user: {
+                    id: user.id,
                     name: req.body.name,
-                    email: req.body.email,
                     isSupport: isSupport,
                     isUser: isUser,
                     isAdmin: isAdmin
@@ -251,7 +263,6 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
         } else {
             // new values
             user.name = req.body.name;
-            user.email = req.body.email;
             user.isSupport = isSupport;
             user.isUser = isUser;
             user.isAdmin = isAdmin;
@@ -265,7 +276,7 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', ensureAuthenticated, (req, res) => {
     User.remove({_id: req.params.id})
         .then(() => {
             req.flash('success_msg', 'User deleted');

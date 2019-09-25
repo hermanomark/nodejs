@@ -8,20 +8,20 @@
                     <form action="/users/add" method="post" class="col s12">
                         <div class="row">
                             <div class="input-field">
-                                <input type="text" name="name">
+                                <input id="name" type="text" name="name" value={{name}}>
                                 <label for="name">Name</label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="input-field">
-                                <input type="email" name="email">
+                                <input id="email" type="email" name="email" value={{email}}>
                                 <label for="email">Email</label>
                             </div>
                         </div>
                         <div class="row">
                              <p>
                                 <label for="isSupport">
-                                    <input type="checkbox" class="filled-in" id="isSupport" name="isSupport" />
+                                    <input type="checkbox" class="filled-in" id="isSupport" name="isSupport" {{#if isSupport}} checked="checked" {{/if}}/>
                                     <span>isSupport</span>
                                 </label>
                             </p>
@@ -29,7 +29,7 @@
                         <div class="row">
                              <p>
                                 <label for="isUser">
-                                    <input type="checkbox" class="filled-in" id="isUser" name="isUser" />
+                                    <input type="checkbox" class="filled-in" id="isUser" name="isUser" {{#if isUser}} checked="checked" {{/if}}/>
                                     <span>isUser</span>
                                 </label>
                             </p>
@@ -37,20 +37,20 @@
                         <div class="row">
                             <p>
                                 <label for="isAdmin">
-                                    <input type="checkbox" class="filled-in" id="isAdmin" name="isAdmin" />
+                                    <input type="checkbox" class="filled-in" id="isAdmin" name="isAdmin" {{#if isAdmin}} checked="checked" {{/if}}/>
                                     <span>isAdmin</span>
                                 </label>
                             </p>
                         </div>
                         <div class="row">
                             <div class="input-field">
-                                <input type="password" name="password" value="{{password}}">
+                                <input id="password" type="password" name="password">
                                 <label for="password">Password</label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="input-field">
-                                <input type="password" name="password2">
+                                <input id="password2" type="password" name="password2">
                                 <label for="password2">Confirm Password</label>
                             </div>
                         </div>

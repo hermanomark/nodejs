@@ -1,11 +1,3 @@
-
-
-{{#if error}}
-    <body onload="M.toast({html: '{{error}}, classes: 'red rounded'})">
-
-    </body>
-{{/if}}
-
 {{#each errors}}
     <body onload="M.toast({html: '{{text}}', classes: 'red rounded'})">
 
@@ -13,4 +5,8 @@
 {{else}}
 {{/each}}
 
- <a onclick="M.toast({html: 'I am a toast', classes: 'red rounded'})" class="btn">Toast!</a>
+{{#if error}}
+    <body onload="M.toast({html: '{{error}}, classes: 'red rounded'})">
+
+    </body>
+{{/if}}

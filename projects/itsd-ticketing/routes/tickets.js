@@ -24,6 +24,7 @@ router.get('/onprocess', ensureAuthenticated, (req, res) => {
                     tickets: tickets
                 });
             } else {
+                req.flash('error_msg', 'Access denied');
                 res.redirect('/tickets');
             }
         })
@@ -38,6 +39,7 @@ router.get('/closed', ensureAuthenticated, (req, res) => {
                     tickets: tickets
                 });
             } else {
+                req.flash('error_msg', 'Access denied');
                 res.redirect('/tickets');
             }
         })
@@ -63,6 +65,7 @@ router.get('/show/:id', ensureAuthenticated, (req, res) => {
                 ticket: ticket
             });
         } else {
+            req.flash('error_msg', 'Access denied');
             res.redirect('/tickets')
         }
     });
@@ -82,6 +85,7 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
                 ticket: ticket
             });
         } else {
+            req.flash('error_msg', 'Access denied');
             res.redirect('/tickets');
         }
     });
@@ -89,10 +93,9 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
 
 router.get('/supportadd', ensureAuthenticated, (req, res) => {
     if (req.user.isSupport === true) {
-        console.log('You are a support, accepted')
         res.render('tickets/supportadd')
     } else {
-        console.log('You are not a support')
+        req.flash('error_msg', 'Access denied');
         res.redirect('/tickets');
     }
 });
@@ -103,10 +106,9 @@ router.get('/supportedit/:id', ensureAuthenticated, (req, res) => {
     })
     .then(ticket => {
         if (req.user.isSupport !== true) {
-            console.log('You are not a support')
+            req.flash('error_msg', 'Access denied');
             res.redirect('/tickets');
         } else {
-            console.log('You are a support, accepted')
             res.render('tickets/supportedit', {
                 ticket: ticket
             });
@@ -117,24 +119,22 @@ router.get('/supportedit/:id', ensureAuthenticated, (req, res) => {
 router.post('/', ensureAuthenticated, (req, res) => {
     let errors = [];
 
+    if (!req.body.local) {
+        errors.push({text: 'Please add local'});
+    }
     if (!req.body.problem) {
         errors.push({text: 'Please state your problem'});
-    }
-    if (!req.body.requestedBy) {
-        errors.push({text: 'Please add a requester'});
     }
 
     if(errors.length > 0) {
         res.render('tickets/add', {
             errors: errors,
-            problem: req.body.problem,
-            requestedBy: req.body.requestedBy
+            department: req.body.department,
+            local: req.body.local,
+            typeOfWork: req.body.typeOfWork,
+            system: req.body.system,
+            problem: req.body.problem
         });
-
-        errors.forEach((error) => {
-            console.log(error.text);
-        });
-
     } else {
         const randomId = () => {
             return (
@@ -171,28 +171,29 @@ router.post('/', ensureAuthenticated, (req, res) => {
 router.post('/supportadd', ensureAuthenticated, (req, res) => {
     let errors = [];
 
-    if (!req.body.problem) {
-        errors.push({text: 'Please state your problem'});
-    }
     if (!req.body.requestedBy) {
         errors.push({text: 'Please add a requester'});
     }
-    if (!req.body.actionTaken) {
-        errors.push({text: 'Please add an action taken'});
+    if (!req.body.local) {
+        errors.push({text: 'Please add local'});
+    }
+    if (!req.body.problem) {
+        errors.push({text: 'Please state your problem'});
     }
 
     if(errors.length > 0) {
         res.render('tickets/supportadd', {
             errors: errors,
-            problem: req.body.problem,
             requestedBy: req.body.requestedBy,
+            department: req.body.department,
+            local: req.body.local,
+            typeOfWork: req.body.typeOfWork,
+            system: req.body.system,
+            problem: req.body.problem,
+            assignedTo: req.body.assignedTo,
+            status: req.body.status,
             actionTaken: req.body.actionTaken
         });
-
-        errors.forEach((error) => {
-            console.log(error.text);
-        });
-
     } else {
         const randomId = () => {
             return (
@@ -222,7 +223,6 @@ router.post('/supportadd', ensureAuthenticated, (req, res) => {
             .save()
             .then(ticket => {
                 req.flash('success_msg', 'Ticket added');
-                console.log(`Ticket added: ${ticket.status}`);
                 if (ticket.status === 'onprocess') {
                     res.redirect('/tickets/onprocess');
                 } else if (ticket.status === 'closed') {
@@ -237,11 +237,11 @@ router.post('/supportadd', ensureAuthenticated, (req, res) => {
 router.put('/:id', ensureAuthenticated, (req, res) => {
     let errors = [];
 
-    if (!req.body.problem) {
-        errors.push({text: 'Please add a problem'});
+    if (!req.body.local) {
+        errors.push({text: 'Please add local'});
     }
-    if (!req.body.requestedBy) {
-        errors.push({text: 'Please add some requestedBy'});
+    if (!req.body.problem) {
+        errors.push({text: 'Please state your problem'});
     }
 
     Ticket.findOne({
@@ -253,8 +253,12 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
                 errors: errors,
                 ticket: {
                     id: ticket.id,
-                    requestedBy: req.body.title,
-                    problem: req.body.problem,
+                    requestId: req.body.requestId,
+                    department: req.body.department,
+                    local: req.body.local,
+                    typeOfWork: req.body.typeOfWork,
+                    system: req.body.system,
+                    problem: req.body.problem
                 }
             });
         } else {
@@ -267,7 +271,6 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
             ticket.save()
             .then(ticket => { 
                 req.flash('success_msg', 'Ticket updated');
-                console.log(`Ticket updated`);
                 res.redirect('/tickets/dashboard')
             });
         }
@@ -277,14 +280,14 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
 router.put('/supportedit/:id', ensureAuthenticated, (req, res) => {
     let errors = [];
 
-    if (!req.body.problem) {
-        errors.push({text: 'Please add a problem'});
-    }
     if (!req.body.requestedBy) {
-        errors.push({text: 'Please add some requestedBy'});
+        errors.push({text: 'Please add a requester'});
     }
-    if (!req.body.actionTaken) {
-        errors.push({text: 'Please add an action taken'});
+    if (!req.body.local) {
+        errors.push({text: 'Please add local'});
+    }
+    if (!req.body.problem) {
+        errors.push({text: 'Please state your problem'});
     }
 
     Ticket.findOne({
@@ -296,8 +299,15 @@ router.put('/supportedit/:id', ensureAuthenticated, (req, res) => {
                 errors: errors,
                 ticket: {
                     id: ticket.id,
+                    requestId: req.body.requestId,
                     requestedBy: req.body.requestedBy,
+                    department: req.body.department,
+                    local: req.body.local,
+                    typeOfWork: req.body.typeOfWork,
+                    system: req.body.system,
                     problem: req.body.problem,
+                    assignedTo: req.body.assignedTo,
+                    status: req.body.status,
                     actionTaken: req.body.actionTaken
                 }
             });
@@ -315,7 +325,6 @@ router.put('/supportedit/:id', ensureAuthenticated, (req, res) => {
             ticket.save()
             .then(ticket => { 
                 req.flash('success_msg', 'Ticket updated');
-                console.log(`Ticket updated: ${ticket.status}`);
                 if (ticket.status === 'onprocess') {
                     res.redirect('/tickets/onprocess');
                 } else if (ticket.status === 'closed') {
@@ -328,11 +337,25 @@ router.put('/supportedit/:id', ensureAuthenticated, (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
-    Ticket.remove({_id: req.params.id})
+router.delete('/:id', ensureAuthenticated, (req, res) => {
+    Ticket.findOne({
+        _id: req.params.id
+    })
+    .then(ticket => {
+        Ticket.remove({_id: req.params.id})
         .then(() => {
-            res.redirect('/tickets/dashboard');
+            req.flash('success_msg', 'Ticket deleted');
+            if (ticket.user == req.user.id) {
+                res.redirect('/tickets/dashboard');
+            } else if (ticket.status === 'onprocess') {
+                res.redirect('/tickets/onprocess');
+            } else if (ticket.status === 'closed') {
+                res.redirect('/tickets/closed');
+            } else {
+                res.redirect('/tickets');
+            }
         });
+    });
 });
 
 module.exports = router;

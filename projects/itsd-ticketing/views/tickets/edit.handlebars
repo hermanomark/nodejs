@@ -9,13 +9,13 @@
                         <div class="col s12 m6">
                             <div class="input-field">
                                 <label for="requestId">Request ID</label>
-                                <input type="text" name="requestId" value="{{ticket.requestId}}" readonly class="readonly">
+                                <input id="requestId" type="text" name="requestId" value="{{ticket.requestId}}" readonly class="readonly">
                             </div>
                         </div>
                         <div class="col s12 m6">
                             <div class="input-field">
                                 <label for="date">Date</label>
-                                <input type="text" name="date" value="{{formatDate ticket.date 'MMMM Do YYYY'}}" readonly class="readonly">
+                                <input id="date" type="text" name="date" value="{{formatDate ticket.date 'MMMM Do YYYY'}}" readonly class="readonly">
                             </div>
                         </div>
                     </div>
@@ -23,14 +23,14 @@
                         <div class="col s12 m6">
                             <div class="input-field">
                                 <label for="requestedBy">Requested By</label>
-                                <input type="text" name="requestedBy" value="{{user.name}}" readonly class="readonly">
+                                <input id="requestedBy" type="text" name="requestedBy" value="{{user.name}}" readonly class="readonly">
                             </div>
                         </div>
                         <div class="col s12 m6">
                             <div class="input-field">
-                                <select name="department" id="">
+                                <select name="department" id="department">
                                     {{#select ticket.department}}
-                                    <option value="information_technology" selected>Information Technology</option>
+                                    <option value="information technology" selected>Information Technology</option>
                                     <option value="finance">Finance</option>
                                     <option value="accounting">Accounting</option>
                                     <option value="marketing">Marketing</option>
@@ -45,12 +45,12 @@
                         <div class="col s12 m4">
                             <div class="input-field">
                                 <label for="local">Local</label>
-                                <input type="number" name="local" value="{{ticket.local}}">
+                                <input id="local" type="number" name="local" value="{{ticket.local}}">
                             </div>
                         </div>
                         <div class="col s12 m4">
                             <div class="input-field">
-                                <select name="typeOfWork" id="">
+                                <select name="typeOfWork" id="typeOfWork">
                                     {{#select ticket.typeOfWork}}
                                     <option value="software" selected>Software</option>
                                     <option value="technical">Technical</option>
@@ -61,9 +61,10 @@
                         </div>
                         <div class="col s12 m4">
                              <div class="input-field">
-                                <select name="system" id="">
+                                <select name="system" id="system">
                                     {{#select ticket.system}}
-                                    <option value="cf4_generator" selected>CF4 Generator</option>
+                                    <option value="not applicable" selected>Not Applicable</option>
+                                    <option value="cf4 generator">CF4 Generator</option>
                                     <option value="medsys">Medsys</option>
                                     <option value="bizbox">Bizbox</option>
                                     <option value="hris">HRIS</option>
@@ -78,7 +79,7 @@
                         <div class="col s12">
                              <div class="input-field">
                                 <label for="problem">Problem</label>
-                                <textarea name="problem" class="materialize-textarea" rows="4">{{ticket.problem}}</textarea>
+                                <textarea id="problem" name="problem" class="materialize-textarea" rows="4">{{ticket.problem}}</textarea>
                             </div>
                         </div>
                     </div>
