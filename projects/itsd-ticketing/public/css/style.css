@@ -62,3 +62,7 @@ body {
 strong {
     font-weight: bold;
 }
+
+.pre-wrap {
+    white-space: pre-wrap;
+}

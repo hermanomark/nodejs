@@ -85,7 +85,7 @@
                     <div class="col s12">
                         <label for="problem">Problem</label>
                         {{#if ticket.problem}}
-                        <p>{{ticket.problem}}</p>
+                        <p class="pre-wrap">{{ticket.problem}}</p>
                         <hr>
                         {{else}}
                         <p>&nbsp;</p>
@@ -119,7 +119,7 @@
                     <div class="col s12">
                         <label for="actionTaken">Action Taken</label>
                         {{#if ticket.actionTaken}}
-                        <p>{{ticket.actionTaken}}</p>
+                        <p class="pre-wrap">{{ticket.actionTaken}}</p>
                         <hr>
                         {{else}}
                         <p>&nbsp;</p>
@@ -146,7 +146,7 @@
         {{#each ticket.comments}}
             <div class="card">
                 <div class="card-content">
-                    <h5>{{commentBody}}</h5>
+                    <p class="pre-wrap">{{commentBody}}</p>
                     <small>Support: {{commentUser.name}}</small>
                     <br>
                     <small>Posted: {{formatDate commentDate 'MMMM Do YYYY'}}</small>

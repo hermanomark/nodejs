@@ -8,9 +8,7 @@
           <tr>
               <th>Name</th>
               <th>Email</th>
-              <th>isSupport</th>
-              <th>isUser</th>
-              <th>isAdmin</th>
+              <th>Role</th>
               <th>Date</th>
               <th colspan="2">Customize</th>
           </tr>
@@ -20,9 +18,7 @@
             <tr>
                 <td>{{name}}</td>
                 <td>{{email}}</td>
-                <td>{{isSupport}}</td>
-                <td>{{isUser}}</td>
-                <td>{{isAdmin}}</td>
+                <td>{{#if isAdmin}}Admin{{else if isSupport}}Support{{else}}User{{/if}}</td>
                 <td>{{formatDate date 'MMMM Do YYYY'}}</td>
                 <td><a class="btn left-align" href="/users/edit/{{id}}"><i class="fa fa-pencil"></i> Edit</a>
                 </td>

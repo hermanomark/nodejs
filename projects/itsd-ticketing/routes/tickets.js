@@ -105,7 +105,9 @@ router.get('/supportadd', ensureAuthenticated, async (req, res) => {
     }
 });
 
-router.get('/supportedit/:id', ensureAuthenticated, (req, res) => {
+router.get('/supportedit/:id', ensureAuthenticated, async (req, res) => {
+    const users = await User.find({isSupport: true});
+
     Ticket.findOne({
         _id: req.params.id
     })
@@ -115,7 +117,7 @@ router.get('/supportedit/:id', ensureAuthenticated, (req, res) => {
             res.redirect('/tickets');
         } else {
             res.render('tickets/supportedit', {
-                ticket: ticket
+                ticket: ticket, users: users
             });
         }
     });

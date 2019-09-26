@@ -89,8 +89,9 @@
                             <div class="input-field">
                                 <select name="assignedTo" id="assignedTo">
                                     {{#select ticket.assignedTo}}
-                                    <option value="hermano.mark.mh@gmail.com" selected>Mark Hermano</option>
-                                    <option value="hermano.mark@yahoo.com">Mark Hermano Second</option>
+                                    {{#each users}}
+                                    <option value="{{name}}">{{name}}</option>
+                                    {{/each}}
                                     {{/select}}
                                 </select>
                                 <label for="assignedTo">Assigned To</label>
