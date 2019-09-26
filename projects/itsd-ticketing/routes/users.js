@@ -11,13 +11,12 @@ router.get('/', ensureAuthenticated, (req, res) => {
         User.find()
             .sort({date: 'desc'})
             .then(users => {
-                req.flash('success_msg', 'Access to page accepted');
                 res.render('users/index', {
                     users: users
                 });
             });
     } else {
-        req.flash('error_msg', 'Access to page denied');
+        req.flash('error_msg', 'Access denied');
         res.redirect('/tickets');
     }
 });
@@ -34,7 +33,7 @@ router.get('/add', ensureAuthenticated, (req, res) => {
     if (req.user.isAdmin === true) {
         res.render('users/add');
     } else {
-        req.flash('error_msg', 'Access to page denied');
+        req.flash('error_msg', 'Access denied');
         res.redirect('/tickets');
     }
 });
@@ -50,7 +49,7 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
             });
         });
     } else {
-        req.flash('error_msg', 'Access to page denied');
+        req.flash('error_msg', 'Access denied');
         res.redirect('/tickets');
     }
 });

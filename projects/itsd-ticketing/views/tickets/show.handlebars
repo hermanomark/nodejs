@@ -129,5 +129,29 @@
                 </div>
             </div>
         </div>
+        {{#supportRole user.isSupport}}
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">Comments</span>
+                <form method="post" action="/tickets/comment/{{ticket.id}}">
+                    <div class="input-field">
+                        <textarea id="commentBody" name="commentBody" class="materialize-textarea"></textarea>
+                        <label for="commentBody">Add Commnent</label>
+                        <input type="submit" value="Submit" class="btn">
+                    </div>
+                </form>
+            </div>
+        </div>
+        {{/supportRole}}
+        {{#each ticket.comments}}
+            <div class="card">
+                <div class="card-content">
+                    <h5>{{commentBody}}</h5>
+                    <small>Support: {{commentUser.name}}</small>
+                    <br>
+                    <small>Posted: {{formatDate commentDate 'MMMM Do YYYY'}}</small>
+                </div>
+            </div>
+        {{/each}}
     </div>
 </div>

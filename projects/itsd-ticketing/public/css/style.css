@@ -58,3 +58,7 @@ body {
     bottom: 10%;
     left:7%;  
 }
+
+strong {
+    font-weight: bold;
+}

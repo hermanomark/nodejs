@@ -1,12 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Ticket = mongoose.model('tickets');
+const User = mongoose.model('users');
 const router = express.Router();
 const {ensureAuthenticated} = require('../helpers/auth');
 const {performance} = require('perf_hooks');
 
 router.get('/', ensureAuthenticated, (req, res) => {
     Ticket.find({status: 'open'})
+        .populate('user')
         .sort({date: 'desc'})
         .then(tickets => {
             res.render('tickets/index', {
@@ -59,6 +61,7 @@ router.get('/show/:id', ensureAuthenticated, (req, res) => {
     Ticket.findOne({
         _id: req.params.id
     })
+    .populate('comments.commentUser')
     .then(ticket => {
         if (ticket.user == req.user.id || req.user.isSupport === true) {
             res.render('tickets/show', {
@@ -91,9 +94,11 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
     });
 });
 
-router.get('/supportadd', ensureAuthenticated, (req, res) => {
+router.get('/supportadd', ensureAuthenticated, async (req, res) => {
+    const users = await User.find({isSupport: true});
+
     if (req.user.isSupport === true) {
-        res.render('tickets/supportadd')
+        res.render('tickets/supportadd', {users: users});
     } else {
         req.flash('error_msg', 'Access denied');
         res.redirect('/tickets');
@@ -355,6 +360,25 @@ router.delete('/:id', ensureAuthenticated, (req, res) => {
                 res.redirect('/tickets');
             }
         });
+    });
+});
+
+router.post('/comment/:id', (req, res) => {
+    Ticket.findOne({
+        _id: req.params.id
+    })
+    .then(ticket => {
+        const newComment = {
+            commentBody: req.body.commentBody,
+            commentUser: req.user.id
+        }
+
+        ticket.comments.unshift(newComment);
+
+        ticket.save()
+            .then(ticket => {
+                res.redirect(`/tickets/show/${ticket.id}`)
+            });
     });
 });
 
